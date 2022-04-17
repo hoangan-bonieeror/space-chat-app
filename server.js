@@ -10,8 +10,6 @@ const server = http.createServer(app)
 
 const io = require('socket.io')(server)
 
-const PORT = 3000 || process.env.PORT
-
 app.use(express.static(path.join(__dirname, 'public')))
 
 io.on('connection', socket => {
@@ -103,4 +101,4 @@ io.on('connection', socket => {
     })
 })
 
-server.listen(PORT, () => console.log(`Server running on port ${PORT}`))
+server.listen(process.env.PORT || 5000, () => console.log(`Server running on port ${PORT}`))
