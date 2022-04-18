@@ -1,14 +1,18 @@
-const express = require("express")
-const path = require('path')
-const http = require('http')
-const {formatMessage} = require('./utils/message')
-const { userJoin, getCurrentUser, removeUser, logUsers } = require('./utils/users')
-const { nanoid } = require('nanoid')
+import express from 'express'
+import path from 'path'
+import http from 'http'
+import {formatMessage} from './utils/message.js'
+import { userJoin, getCurrentUser, removeUser } from './utils/users.js'
+import { nanoid } from 'nanoid'
+import {emoticon} from 'emoticon';
 
 const app = express()
 const server = http.createServer(app)
 
-const io = require('socket.io')(server)
+import { Server } from 'socket.io'
+const io = new Server(server)
+
+const __dirname = path.resolve(path.dirname(''));
 
 app.use(express.static(path.join(__dirname, 'public')))
 
@@ -50,7 +54,10 @@ io.on('connection', socket => {
             .to(user.room)
             .emit('loadRoomName', user.room)
         
+        socket.emit('set-room-id', room)
         // logUsers()
+
+        socket.emit('loadEmoji', emoticon)
     })
 
     socket.on('message', msg => {

@@ -1,6 +1,6 @@
 let users = [];
 
-const userJoin = (id, username, room) => {
+export function userJoin(id, username, room) {
     const user = { id, username, room }
 
     users.push(user);
@@ -8,26 +8,16 @@ const userJoin = (id, username, room) => {
     return user;
 }
 
-const getCurrentUser = (id) => {
+export function getCurrentUser(id) {
     return users.find(user => user.id === id)
 }
 
 
-const removeUser = (id) => {
+export function removeUser(id) {
     try {
         users = users.filter(user => user.id !== id)
         return true;
     } catch (err) {
         return false;
-    }
-}
-
-
-module.exports = {
-    userJoin,
-    getCurrentUser,
-    removeUser,
-    logUsers : () => {
-        console.log(users)
     }
 }

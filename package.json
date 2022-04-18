@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "node server",
     "dev": "nodemon server.js",
@@ -11,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "emoticon": "^4.0.1",
     "express": "^4.17.3",
     "moment": "^2.29.2",
     "nanoid": "^3.3.2",

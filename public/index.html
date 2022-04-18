@@ -11,7 +11,7 @@
 			crossorigin="anonymous"
 		/>
 		<link rel="stylesheet" href="css/style.css" />
-		<title>ChatCord App</title>
+		<title>SpaceChat App</title>
 	</head>
 	<body>
 		<div class="join-container">
@@ -20,56 +20,51 @@
 			</header>
 			<main class="join-main">
 				<form action="chat.html">
-					<div class="form-control">
-						<label for="username">Username</label>
+					<div class="form-control" id="input-username" style="margin-bottom: 0;">
 						<input
 							type="text"
 							name="username"
 							id="username"
-							placeholder="Enter username..."
+							placeholder="Enter your name..."
 							required
 						/>
 					</div>
-					<div class="form-control">
-						<label for="room">Room</label>
-						<select name="room" id="room-select">
-							<option value="JavaScript">JavaScript</option>
-							<option value="Python">Python</option>
-							<option value="PHP">PHP</option>
-							<option value="C#">C#</option>
-							<option value="Ruby">Ruby</option>
-							<option value="Java">Java</option>
-						</select>
+					<div class="form-control" id="input-room-name" style="display: none;">
 						<input
 							type="text"
-							name="none"
+							name="room"
 							id="room-text"
-							placeholder="Enter room..."
-							style="display: none;"
+							placeholder="Enter id..."
 						/>
 					</div>
 					<div style="display: flex; justify-content : space-evenly;">
-						<button id="join-chat-btn" type="submit" class="btn">Join Chat</button>
-						<button id="create-room-btn" type="button" class="btn">Create Room</button>
+						<button id="join-chat-btn" type="submit" class="btn" style="display: none;">Join Chat</button>
+						<button id="enter-room-btn" type="button" class="btn">Enter Room ID</button>
+						<button id="create-room-btn" type="submit" class="btn">New Room</button>
+						<button id="cancel-btn" type="button" class="btn" style="display: none;">Back</button>
 					</div>
 					<script>
-						let firstClick = 1
-						const createRoomBtn = document.querySelector('#create-room-btn')
-						createRoomBtn.addEventListener('click', e => {
-							if(firstClick == 1) {
-								document.getElementById('room-select').style.display = 'none'
-								document.getElementById('room-select').name = 'none'
-								document.getElementById('room-text').style.display = 'unset'
-								document.getElementById('room-text').name = 'room'
-								firstClick ++
-							} else {
-								document.getElementById('room-select').style.display = 'unset'
-								document.getElementById('room-select').name = 'room'
-								document.getElementById('room-text').style.display = 'none'
-								document.getElementById('room-text').name = 'none'
-								firstClick --
+						const enterRoomBtn = document.getElementById('enter-room-btn')
+						const joinChatBtn = document.getElementById('join-chat-btn')
+						const roomNameInput = document.getElementById('input-room-name')
+						const createRoomBtn = document.getElementById('create-room-btn')
+						const cancelBtn = document.getElementById('cancel-btn')
+						const inputUsername = document.getElementById('input-username')
+						
+						enterRoomBtn.addEventListener('click', e=> {
+							e.preventDefault()
+
+							joinChatBtn.style.display = roomNameInput.style.display = cancelBtn.style.display = 'unset'
+							enterRoomBtn.style.display =  createRoomBtn.style.display = 'none'
+							inputUsername.style.marginBottom = '20px'
+
+							cancelBtn.onclick = (e) => {
+								joinChatBtn.style.display = roomNameInput.style.display = cancelBtn.style.display = 'none'
+								enterRoomBtn.style.display =  createRoomBtn.style.display = 'unset'
+								inputUsername.style.marginBottom = '0'
 							}
 						})
+						
 					</script>
 				</form>
 			</main>
