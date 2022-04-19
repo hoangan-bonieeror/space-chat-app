@@ -1,7 +1,13 @@
 let users = [];
 
+export function User(id,username,room) {
+    this.id = id,
+    this.username = username,
+    this.room = room 
+}
+
 export function userJoin(id, username, room) {
-    const user = { id, username, room }
+    const user = new User(id, username, room)
 
     users.push(user);
 

@@ -80,12 +80,12 @@ a {
 /* Chat Page */
 
 .chat-container {
-	width: 100%;;
 	background: var(--slate-color);
 	/* margin: 50px auto; */
 	overflow: hidden;
 	/* border-radius: 5px; */
 	height: 100vh;
+	width: 100vw;
 }
 
 .chat-header {
@@ -97,11 +97,16 @@ a {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	height: 10%;
+	width: inherit;
+	min-height: 70px;
 }
 
 .chat-main {
 	display: grid;
 	grid-template-columns: 1fr 4.5fr;
+	height: 80%;
+	width: 100%;
 }
 
 #emoji-content {
@@ -152,6 +157,26 @@ a {
 	justify-content: flex-end;
 }
 
+.toggle-sidebar {
+	display: none;
+	position: fixed;
+	top: 100px;
+	left: 0px;
+	border-radius: 0 1.5rem 1.5rem 0;
+	padding: 1rem 1rem 1rem .5rem;
+	/* border: 2px solid black; */
+	border-left: 0;
+	background-color: #282828;
+	color: white;
+	transition : all .3s;
+	cursor: pointer;
+}
+
+.toggle-sidebar:hover {
+	background-color: white;
+	color: #282828;
+}
+
 .chat-sidebar {
 	background: white;
 	color: var(--slate-color);
@@ -176,7 +201,7 @@ a {
 
 .chat-messages {
 	padding: 25px;
-	height: 77vh;
+	height: 100%;
 	overflow-y: scroll;
 	background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
 	background-size: 400% 400%;
@@ -205,54 +230,58 @@ a {
 .chat-messages .message {
 	padding: 20px 10px;
 	margin: 0;
-	background-color: transparent;
+	background-color: white;
 	border-radius: 5px;
 	animation-name: fadeUp;
 	animation-duration: .3s;
 	animation-delay: 0s;
-	color: white;
+	color: #282828;
 	border: 3px solid white;
 	height: max-content;
-	width: max-content;
 	max-width: 500px;
+	object-fit: contain;
 }
 
 .chat-messages .message .meta {
 	font-size: 15px;
 	font-weight: bold;
-	color: white;
+	color: #282828;
 	opacity: 0.7;
 	margin-bottom: 7px;
 }
 
 .chat-messages .message .meta span {
-	color: white;
+	color: #282828;
 }
 
 .chat-form-container {
-	padding: 25px;
+	padding: 15px;
 	background-color: #282828;
+	width: inherit;
+	height: 10%;
+	min-height: 70px;
 }
 
 .chat-form-container form {
 	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .chat-form-container input[type='text'] {
 	font-size: 16px;
-	padding: 25px 25px 25px 15px !important;
+	padding: 15px !important;
 	height: 40px;
 	flex: 1;
 	outline-width: 0;
 	border: none;
 	border-radius: 20px;
-	padding-left: 10px;
+	margin: 0 5px;
 }
 
 .chat-form-container .btn-sent {
-	transform: translateX(10px);
 	border: none !important;
-	padding: 0 20px;
+	padding: 10px 15px;
 	background: white;
 	border-radius: 20px;
 	cursor: pointer;
@@ -260,9 +289,6 @@ a {
 	color: var(--slate-color);
 }
 
-#icon-btn {
-	padding: 15px 20px;
-}
 
 .chat-form-container .btn-sent i {
 	transform: translateX(-1px);
@@ -354,12 +380,87 @@ a {
 	}
 }
 
-@media (max-width: 700px) {
+@media (max-width: 980px) {
+	.chat-header {
+		width: 100vw;
+		position: fixed;
+		top: 0;
+		height: 85px;
+	}
+
+	.chat-container {
+		position: fixed;
+		top: 85px;
+		height: calc(100vh - 140px);
+		width: 100vw;
+	}
+
 	.chat-main {
 		display: block;
+		height: 100%;
+		position: relative;
 	}
 
 	.chat-sidebar {
-		display: none;
+		height: calc(100vh - 70px);
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 30%;
+		margin-left: calc(30% - 100vw);
+		transition: all .3s;
 	}
+
+	.toggle-sidebar {
+		display: block !important;
+	}
+
+	.toggle-sidebar:focus + .chat-sidebar {
+		margin-left: 0;
+	}
+	
+	.toggle-sidebar:focus {
+		margin-left: calc(100vw - 70%);
+		pointer-events: none;
+	}
+	
+	.toggle-sidebar:focus > i {
+		transform: rotate(180deg);
+	}
+
+	.chat-form-container {
+		position: fixed;
+		bottom: 0;
+	}
+	
+}
+
+@media (max-width: 700px) {
+	.chat-sidebar {
+		height: calc(100vh - 140px);
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 50%;
+		margin-left: calc(50% - 100vw);
+		transition: all .3s;
+	}
+
+	.toggle-sidebar {
+		display: block !important;
+	}
+
+	.toggle-sidebar:focus + .chat-sidebar {
+		margin-left: 0;
+	}
+	
+	.toggle-sidebar:focus {
+		margin-left: calc(100vw - 50%);
+		pointer-events: none;
+	}
+	
+	.toggle-sidebar:focus > i {
+		transform: rotate(180deg);
+	}
+	
 }
