@@ -156,3 +156,32 @@ function getInputSelection(el) {
 
     return [start, end]
 }
+
+const toggleSideBar = document.querySelector('.toggle-sidebar')
+const sideBar = document.querySelector('.chat-sidebar')
+
+if(toggleSideBar) {
+    let toggleSideClick = 1
+
+    toggleSideBar.addEventListener('click', e => {
+        let screenWidth = window.innerWidth
+        if(toggleSideClick == 1) {
+            let percentSideBar = 0
+            console.log(screenWidth)
+            if(screenWidth < 700) {
+                percentSideBar = 50
+            } else {
+                percentSideBar = 70
+            }
+            sideBar.classList.add('show')
+            toggleSideBar.style.left = `calc(100vw - ${percentSideBar}%)`
+            toggleSideBar.children[0].style.transform = 'rotate(180deg)'
+            toggleSideClick ++
+        } else {
+            sideBar.classList.remove('show')
+            toggleSideBar.style.left = '0'
+            toggleSideBar.children[0].style.transform = 'unset'
+            toggleSideClick --
+        }
+    })
+}

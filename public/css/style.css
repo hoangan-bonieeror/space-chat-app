@@ -299,6 +299,10 @@ a {
 	color: white;
 }
 
+.show {
+	margin-left: 0 !important;
+}
+
 
 /* Join Page */
 .join-container {
@@ -415,19 +419,6 @@ a {
 		display: block !important;
 	}
 
-	.toggle-sidebar:focus + .chat-sidebar {
-		margin-left: 0;
-	}
-	
-	.toggle-sidebar:focus {
-		margin-left: calc(100vw - 70%);
-		pointer-events: none;
-	}
-	
-	.toggle-sidebar:focus > i {
-		transform: rotate(180deg);
-	}
-
 	.chat-form-container {
 		position: fixed;
 		bottom: 0;
@@ -445,22 +436,4 @@ a {
 		margin-left: calc(50% - 100vw);
 		transition: all .3s;
 	}
-
-	.toggle-sidebar {
-		display: block !important;
-	}
-
-	.toggle-sidebar:focus + .chat-sidebar {
-		margin-left: 0;
-	}
-	
-	.toggle-sidebar:focus {
-		margin-left: calc(100vw - 50%);
-		pointer-events: none;
-	}
-	
-	.toggle-sidebar:focus > i {
-		transform: rotate(180deg);
-	}
-	
 }
