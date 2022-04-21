@@ -3,6 +3,7 @@ const chatMessage = document.querySelector('.chat-messages')
 const listUser = document.querySelector('#users')
 const roomeName = document.getElementById('room-name')
 const iconBtn = document.getElementById("icon-btn")
+const notificationSoundElement = document.getElementById('notification-sound')
 
 let { username, room } = Qs.parse(location.search, {
     ignoreQueryPrefix : true
@@ -110,6 +111,8 @@ function outputMessage(obj) {
 
     if(obj.username === 'You' || obj.username === 'ChatBot') {
         div.classList.add('right')
+    } else {
+        notificationSoundElement.play()
     }
 
     document.querySelector('.chat-messages').appendChild(div)
