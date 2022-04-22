@@ -97,6 +97,15 @@ window.onload = e => {
             document.getElementById('emoji-content').appendChild(spanElement)
         })
     })
+
+    roomeName.addEventListener('click', e => {
+        navigator.clipboard.writeText(roomeName.textContent)
+        document.querySelector('.notify').classList.add('active')
+
+        setTimeout(()=> {
+            document.querySelector('.notify').classList.remove('active')
+        }, 2000)
+    })
 }
 
 function outputMessage(obj) {
@@ -162,11 +171,9 @@ function getInputSelection(el) {
 
 const toggleSideBar = document.querySelector('.toggle-sidebar')
 const sideBar = document.querySelector('.chat-sidebar')
-
 if(toggleSideBar) {
     let toggleSideClick = 1
-
-    toggleSideBar.addEventListener('click', e => {
+    toggleSideBar.onclick = (e) => {
         let screenWidth = window.innerWidth
         if(toggleSideClick == 1) {
             let percentSideBar = 0
@@ -186,5 +193,5 @@ if(toggleSideBar) {
             toggleSideBar.children[0].style.transform = 'unset'
             toggleSideClick --
         }
-    })
+    }
 }
