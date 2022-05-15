@@ -5,6 +5,13 @@ const roomeName = document.getElementById('room-name')
 const iconBtn = document.getElementById("icon-btn")
 const notificationSoundElement = document.getElementById('notification-sound')
 
+
+window.addEventListener('resize', () => {
+    // We execute the same script as before
+    let vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+  });
+
 let { username, room } = Qs.parse(location.search, {
     ignoreQueryPrefix : true
 })
@@ -125,6 +132,7 @@ function outputMessage(obj) {
     }
 
     document.querySelector('.chat-messages').appendChild(div)
+    div.focus()
 }
 
 function getInputSelection(el) {

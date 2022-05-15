@@ -48,12 +48,12 @@
 body {
 	font-family: 'Roboto', sans-serif;
 	font-size: 16px;
-	/* background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);  */
-	/* background-size: cover;
-	background-position: center;
+	/* background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);  
 	animation: gradient 15s ease infinite;
-	background-image : url("../assets/space-background.jpg");
-	background-repeat: no-repeat; */
+	background-image : url("../assets/space-background.jpg");*/
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat; 
 	background: black;
 	overflow: hidden;
 	width: 100vw !important;
@@ -64,6 +64,8 @@ body {
 canvas {
 	background: url('../assets/space-background.jpg') no-repeat center center;
     background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
 }
 
 ul {
@@ -434,31 +436,39 @@ a {
 @media (max-width: 980px) {
 	body {
 		background-attachment: fixed;
-	}
-	.chat-header {
-		width: 100vw;
-		position: fixed;
-		top: 0;
-		height: 85px;
+		height: calc(var(--vh, 1vh) * 100);
 	}
 
 	.chat-container {
 		position: fixed;
-		top: 85px;
-		height: calc(100vh - 85px - 10%);
+		top : 0;
+		display: grid;
+		grid-template-areas: 'header' 'main' 'footer';
+		grid-template-rows: 10% 80% 10%;
+		gap: 2px;
+		left: unset;
 		width: 100vw;
-		margin: unset;
-		border-radius: unset;
+		height: 100%;
+		border-radius: 0;
+	}
+	.chat-header {
+		grid-area: header;
+		height: unset;
 	}
 
 	.chat-main {
-		display: block;
-		height: 100%;
+		grid-area: main;
+		margin: unset;
+		border-radius: unset;
+		display: unset;
+		grid-template-columns: unset;
+		width: 100%;
+		height: unset;
 		position: relative;
 	}
 
 	.chat-sidebar {
-		height: calc(100vh - 70px);
+		height: 100%;
 		position: absolute;
 		top: 0;
 		left: 0;
@@ -469,6 +479,7 @@ a {
 	}
 
 	.chat-messages {
+		width: 100%;
 		height: 100%;
 	}
 
@@ -477,8 +488,8 @@ a {
 	}
 
 	.chat-form-container {
-		position: fixed;
-		bottom: 0;
+		grid-area: footer;
+		height: unset;
 	}
 	
 	#emoji-content {
@@ -487,9 +498,14 @@ a {
 		bottom: 10vh;
 		z-index: 2000;
 	}
+
+	.join-container {
+		width: 80vw;
+		left: 10vw;
+	}
 }
 
-@media (max-width: 700px) {
+/* @media (max-width: 700px) {
 	.chat-sidebar {
 		height: calc(100vh - 140px);
 		position: absolute;
@@ -513,4 +529,4 @@ a {
 	.btn, .join-main input[type='text'] {
 		font-size: 12px;
 	}
-}
+} */
