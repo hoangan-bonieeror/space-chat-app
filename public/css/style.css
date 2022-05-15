@@ -49,11 +49,21 @@ body {
 	font-family: 'Roboto', sans-serif;
 	font-size: 16px;
 	/* background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);  */
-	background-size: cover;
+	/* background-size: cover;
 	background-position: center;
-	/* animation: gradient 15s ease infinite; */
+	animation: gradient 15s ease infinite;
 	background-image : url("../assets/space-background.jpg");
-	background-repeat: no-repeat;
+	background-repeat: no-repeat; */
+	background: black;
+	overflow: hidden;
+	width: 100vw !important;
+	height: 100vh !important;
+	position: relative;
+}
+
+canvas {
+	background: url('../assets/space-background.jpg') no-repeat center center;
+    background-size: cover;
 }
 
 ul {
@@ -86,7 +96,11 @@ a {
 	/* margin: 50px auto; */
 	overflow: hidden;
 	border-radius: 10px;
-	margin: 70px 250px;
+	/* margin: 70px 250px; */
+	position: absolute;
+	left: 20vw;
+	top : 10vh;
+	width: 60vw;
 }
 
 .chat-header {
@@ -331,8 +345,12 @@ a {
 
 /* Join Page */
 .join-container {
+	position: absolute;
+	left: 35vw;
+	top : 30vh;
+	width: 30vw;
 	max-width: 500px;
-	margin: 100px auto;
+	/* margin: 100px auto; */
 	color: white;
 	border: 1px solid #dde1e7;
 	border-radius: .5rem;
@@ -351,6 +369,7 @@ a {
 
 .join-main {
 	padding: 30px 40px;
+	padding-top: 0;
 	background: transparent;
 	border-bottom-left-radius: .5rem;
 	border-bottom-right-radius: .5rem;
@@ -479,5 +498,19 @@ a {
 		width: 50%;
 		margin-left: calc(50% - 100vw);
 		transition: all .3s;
+	}
+
+	.join-container {
+		max-width: 80vw;
+		margin: 220px auto;
+	}
+
+	.join-main {
+		padding-left: 20px;
+		padding-right: 20px;
+	}
+
+	.btn, .join-main input[type='text'] {
+		font-size: 12px;
 	}
 }
