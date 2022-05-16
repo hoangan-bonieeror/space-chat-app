@@ -5,27 +5,27 @@ const roomeName = document.getElementById('room-name')
 const iconBtn = document.getElementById("icon-btn")
 const notificationSoundElement = document.getElementById('notification-sound')
 
-
+// Handle responsive height for mobile ui
 window.addEventListener('resize', () => {
     // We execute the same script as before
     let vh = window.innerHeight * 0.01;
     document.documentElement.style.setProperty('--vh', `${vh}px`);
-  });
+});
 
 let { username, room } = Qs.parse(location.search, {
-    ignoreQueryPrefix : true
+    ignoreQueryPrefix: true
 })
 
 window.onload = e => {
     let listCookie = document.cookie
     console.log(listCookie)
-    if(room == '' && listCookie.includes('room_id')) {
+    if (room == '' && listCookie.includes('room_id')) {
         listCookie = document.cookie.split(';')
 
         let roomIdOnCookie = listCookie.find(cookie => {
             return cookie.includes('room_id')
         })
-        
+
         let [name, value] = roomIdOnCookie.split('=')
         room = value
     }
@@ -36,7 +36,7 @@ window.onload = e => {
     // Join chat room
     socket.emit('joinRoom', { username, room })
 
-    socket.on('message' , message => {
+    socket.on('message', message => {
         console.log(message)
         outputMessage(message)
 
@@ -77,27 +77,27 @@ window.onload = e => {
     let nthClick = 1
     iconBtn.addEventListener('click', e => {
         console.log(nthClick)
-        if(nthClick == 1) {
+        if (nthClick == 1) {
             document.getElementById('emoji-content').style.display = 'grid'
-            nthClick ++
+            nthClick++
         } else {
             document.getElementById('emoji-content').style.display = 'none'
-            nthClick --
+            nthClick--
         }
-        
+
     })
 
-    socket.on('loadEmoji', emoticon=> {
+    socket.on('loadEmoji', emoticon => {
         emoticon.forEach(emoji => {
             let spanElement = document.createElement('span')
             spanElement.textContent = emoji.emoji
-            
+
             spanElement.onclick = (e) => {
                 let [start, end] = getInputSelection(document.getElementById('msg'))
-                let firstPart = document.getElementById('msg').value.slice(0,start)
+                let firstPart = document.getElementById('msg').value.slice(0, start)
                 let finalPart = document.getElementById('msg').value.slice(end)
 
-                document.getElementById('msg').value = [firstPart, emoji.emoji , finalPart].join('')
+                document.getElementById('msg').value = [firstPart, emoji.emoji, finalPart].join('')
                 document.getElementById('msg').focus()
             }
 
@@ -105,27 +105,55 @@ window.onload = e => {
         })
     })
 
+    forceRedirectToHttps()
+
     roomeName.addEventListener('click', e => {
         navigator.clipboard.writeText(roomeName.textContent)
         document.querySelector('.notify').classList.add('active')
 
-        setTimeout(()=> {
+        setTimeout(() => {
             document.querySelector('.notify').classList.remove('active')
         }, 2000)
     })
+
+    const toggleSideBar = document.querySelector('.toggle-sidebar')
+    const sideBar = document.querySelector('.chat-sidebar')
+    if (toggleSideBar) {
+        let toggleSideClick = 1
+        toggleSideBar.onclick = (e) => {
+            let screenWidth = window.innerWidth
+            if (toggleSideClick == 1) {
+                let percentSideBar = 0
+                if (screenWidth < 700) {
+                    percentSideBar = 50
+                } else {
+                    percentSideBar = 70
+                }
+                sideBar.classList.add('show')
+                toggleSideBar.style.left = `calc(100vw - ${percentSideBar}%)`
+                toggleSideBar.children[0].style.transform = 'rotate(180deg)'
+                toggleSideClick++
+            } else {
+                sideBar.classList.remove('show')
+                toggleSideBar.style.left = '0'
+                toggleSideBar.children[0].style.transform = 'unset'
+                toggleSideClick--
+            }
+        }
+    }
 }
 
 function outputMessage(obj) {
     const div = document.createElement('div')
     div.classList.add('line-message')
-    div.innerHTML =`
+    div.innerHTML = `
         <div class="message">
         <p class="meta">${obj.username} <span>${obj.time}</span></p>
         <p class="text">
             ${obj.text}
         </p>`
 
-    if(obj.username === 'You' || obj.username === 'ChatBot') {
+    if (obj.username === 'You' || obj.username === 'ChatBot') {
         div.classList.add('right')
     } else {
         notificationSoundElement.play()
@@ -177,29 +205,10 @@ function getInputSelection(el) {
     return [start, end]
 }
 
-const toggleSideBar = document.querySelector('.toggle-sidebar')
-const sideBar = document.querySelector('.chat-sidebar')
-if(toggleSideBar) {
-    let toggleSideClick = 1
-    toggleSideBar.onclick = (e) => {
-        let screenWidth = window.innerWidth
-        if(toggleSideClick == 1) {
-            let percentSideBar = 0
-            console.log(screenWidth)
-            if(screenWidth < 700) {
-                percentSideBar = 50
-            } else {
-                percentSideBar = 70
-            }
-            sideBar.classList.add('show')
-            toggleSideBar.style.left = `calc(100vw - ${percentSideBar}%)`
-            toggleSideBar.children[0].style.transform = 'rotate(180deg)'
-            toggleSideClick ++
-        } else {
-            sideBar.classList.remove('show')
-            toggleSideBar.style.left = '0'
-            toggleSideBar.children[0].style.transform = 'unset'
-            toggleSideClick --
-        }
+function forceRedirectToHttps() {
+    if (window.location.protocol == 'http:' && window.location.hostname !== 'localhost') {
+        window.location.href =
+            window.location.href.replace(
+                'http:', 'https:');
     }
 }
