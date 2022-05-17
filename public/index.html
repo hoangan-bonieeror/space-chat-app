@@ -73,7 +73,7 @@
 		</script>
 		<div class="join-container">
 			<header class="join-header">
-				<h1><i class="fas fa-smile"></i> Space Chat</h1>
+				<i class="fas fa-smile"></i><h1>Space Chat</h1>
 			</header>
 			<main class="join-main">
 				<form action="chat.html">
@@ -85,6 +85,7 @@
 							placeholder="Enter your name..."
 							required
 						/>
+						<span class="focus-border"><i></i></span>
 					</div>
 					<div class="form-control" id="input-room-name" style="display: none;">
 						<input
@@ -93,6 +94,7 @@
 							id="room-text"
 							placeholder="Enter id..."
 						/>
+						<span class="focus-border"><i></i></span>
 					</div>
 					<div style="display: flex; justify-content : space-evenly;">
 						<button id="join-chat-btn" type="submit" class="btn" style="display: none;">Join Chat</button>
@@ -111,16 +113,18 @@
 						enterRoomBtn.addEventListener('click', e=> {
 							e.preventDefault()
 
-							joinChatBtn.style.display = roomNameInput.style.display = cancelBtn.style.display = 'unset'
+							joinChatBtn.style.display = roomNameInput.style.display = cancelBtn.style.display = 'block'
 							enterRoomBtn.style.display =  createRoomBtn.style.display = 'none'
 							inputUsername.style.marginBottom = '20px'
-
-							cancelBtn.onclick = (e) => {
-								joinChatBtn.style.display = roomNameInput.style.display = cancelBtn.style.display = 'none'
-								enterRoomBtn.style.display =  createRoomBtn.style.display = 'unset'
-								inputUsername.style.marginBottom = '0'
-							}
 						})
+
+						cancelBtn.onclick = (e) => {
+							e.preventDefault()
+
+							joinChatBtn.style.display = roomNameInput.style.display = cancelBtn.style.display = 'none'
+							enterRoomBtn.style.display =  createRoomBtn.style.display = 'block'
+							inputUsername.style.marginBottom = '0'
+						}
 						
 					</script>
 				</form>
