@@ -4,6 +4,7 @@ const listUser = document.querySelector('#users')
 const roomeName = document.getElementById('room-name')
 const iconBtn = document.getElementById("icon-btn")
 const notificationSoundElement = document.getElementById('notification-sound')
+const leaveLink = document.getElementById('leave-link')
 
 // Handle responsive height for mobile ui
 window.addEventListener('resize', () => {
@@ -11,6 +12,12 @@ window.addEventListener('resize', () => {
     let vh = window.innerHeight * 0.01;
     document.documentElement.style.setProperty('--vh', `${vh}px`);
 });
+
+leaveLink.addEventListener('click', e => {
+    e.preventDefault()
+    document.cookie = [...document.cookie.split(';').filter(cookie => !cookie.includes('room_id'))].join(';')
+    window.location = leaveLink.href
+})
 
 let { username, room } = Qs.parse(location.search, {
     ignoreQueryPrefix: true
