@@ -6,6 +6,8 @@ const iconBtn = document.getElementById("icon-btn")
 const notificationSoundElement = document.getElementById('notification-sound')
 const leaveLink = document.getElementById('leave-link')
 
+let listBackground = []
+
 // Handle responsive height for mobile ui
 window.addEventListener('resize', () => {
     // We execute the same script as before
@@ -24,6 +26,7 @@ let { username, room } = Qs.parse(location.search, {
 })
 
 window.onload = e => {
+    e.preventDefault()
     let listCookie = document.cookie
     console.log(listCookie)
     if (room == '' && listCookie.includes('room_id')) {
@@ -35,6 +38,11 @@ window.onload = e => {
 
         let [name, value] = roomIdOnCookie.split('=')
         room = value
+    }
+
+
+    if(window.localStorage.getItem('url_background')) {
+        document.querySelector('canvas').style.background = `url(${window.localStorage.getItem('url_background')})`
     }
 
 
@@ -111,6 +119,36 @@ window.onload = e => {
             document.getElementById('emoji-content').appendChild(spanElement)
         })
     })
+    socket.on('loadBackground', listBackground => {
+        listBackground.forEach(url => {
+            let optionBack = document.createElement('div')
+            optionBack.classList.add('background-item');
+
+            let imgPresent = document.createElement('img')
+            imgPresent.src = url
+            
+             
+            if(imgPresent.width == imgPresent.height) {
+                imgPresent.width = imgPresent.height = 170
+            } else {
+                imgPresent.width = 200
+                imgPresent.height = 120
+            }
+
+            imgPresent.classList.add('background-option')
+
+            let hintDiv = document.createElement('div')
+            hintDiv.textContent = "Set Background"
+
+            optionBack.append(imgPresent, hintDiv)
+
+            optionBack.addEventListener('click', e => {
+                changeBackground(url);
+            })
+            document.getElementById('list-background-url').appendChild(optionBack)
+        })
+        
+    }) 
 
     forceRedirectToHttps()
 
@@ -147,6 +185,15 @@ window.onload = e => {
                 toggleSideClick--
             }
         }
+    }
+}
+
+function changeBackground(url) {
+    if(window.localStorage.getItem('url_background') !== url) {
+        window.localStorage.setItem('url_background', url) 
+        document.querySelector('canvas').style.background = `url(${url})`
+    } else {
+        alert('This is set by default')
     }
 }
 

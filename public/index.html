@@ -16,6 +16,17 @@
 	<body>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r119/three.js"></script>
 		<script>
+			function setBackgroundDefault() {
+				
+				let urlBackground = window.localStorage.getItem('url_background')
+				if(urlBackground) document.querySelector('canvas').style.background = `url(${urlBackground})`
+			}
+
+			window.onload = (e) => {
+				e.preventDefault();
+				setBackgroundDefault();
+			};
+
 			let scene, camera, renderer, stars;
 
 			function init() {
@@ -125,7 +136,8 @@
 							enterRoomBtn.style.display =  createRoomBtn.style.display = 'block'
 							inputUsername.style.marginBottom = '0'
 						}
-						
+
+						if(document.cookie.includes('room_id')) document.cookie += `; expires=${new Date(Date.now()).toUTCString()}; path=/;`;
 					</script>
 				</form>
 			</main>

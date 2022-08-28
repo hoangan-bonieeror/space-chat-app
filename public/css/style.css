@@ -62,10 +62,10 @@ body {
 }
 
 canvas {
-	background: url('../assets/space-background.jpg') no-repeat center center;
-    background-size: cover;
-	background-position: center;
-	background-repeat: no-repeat;
+	/* background: url('../assets/d1aehdnbq0h21.jpg'); */
+    background-size: cover !important;
+	background-position: center !important;
+	background-repeat: no-repeat !important;
 }
 
 ul {
@@ -76,6 +76,93 @@ a {
 	text-decoration: none;
 }
 
+#list-background-url {
+	display: none;
+	position: fixed;
+	background: white;
+	border-radius: .5rem;
+	padding: 10px;
+	max-width: 440px;
+	max-height: 880px;
+	top: 5px;
+	left: 70px;
+	vertical-align: middle;
+	z-index: 1000;
+	justify-content: space-between;
+	align-items: center;
+	border: 2px solid rgba(0, 0, 0, 0.5);
+	transition: all .5s ease-in-out;
+}
+
+#list-background-url > * {
+	padding: 5px;
+	transition-duration: .5s;
+	position: relative;
+}
+
+
+#list-background-url > * > div {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	color: black;
+	font-weight: 650;
+	display: none;
+}
+
+#list-background-url > *:hover > div {
+	display: block;
+}
+
+#list-background-url > *:hover > img.background-option {
+	opacity: 0.7;
+}
+
+
+@keyframes fadeToRight {
+	from {
+		left: 20px;
+		opacity: 0;
+	}
+	to {
+		left : 70px;
+		opacity: 1;
+	}
+}
+
+#background-url:hover > #list-background-url {
+	display: flex;
+	animation: fadeToRight .5s ease-in-out;
+}
+
+
+
+#background-url:hover {
+	background: white;
+	color: black;
+}
+
+
+#background-url {
+	cursor: pointer;
+	position: absolute;
+	top: 20px;
+	left: 20px;
+	background: transparent;
+	border: 1px solid white;
+	padding: 10px;
+	border-radius: .5rem;
+	transition-duration: .5s;
+	color: white;
+}
+
+#background-url > i {
+	font-weight: 600;
+	font-size: 30px;
+	transition-duration: .5s;
+}
+
 .btn {
 	color: var(--slate-color);
 	border: none !important;
@@ -83,7 +170,7 @@ a {
 	background: white;
 	border-radius: 10px;
 	cursor: pointer;
-	transition-duration: .2s;
+	transition-duration: .5s;
 }
 
 .btn:hover {

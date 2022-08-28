@@ -14,6 +14,12 @@ const io = new Server(server)
 
 const __dirname = path.resolve(path.dirname(''));
 
+app.use((req, _ , next) => {
+    process.env.PROTOCOL = req.protocol
+    process.env.HOSTNAME = req.hostname
+    next()
+})
+
 app.use(express.static(path.join(__dirname, 'public')))
 
 io.on('connection', socket => {
@@ -59,6 +65,13 @@ io.on('connection', socket => {
 
         socket.emit('loadEmoji', emoticon)
     })
+
+    let listBackground = [
+        `${process.env.PROTOCOL}://${process.env.HOSTNAME}:${process.env.PORT || 5000}/assets/d1aehdnbq0h21.jpg`,
+        `${process.env.PROTOCOL}://${process.env.HOSTNAME}:${process.env.PORT || 5000}/assets/jameswebb-3333.png`
+        
+    ]
+    socket.emit('loadBackground', listBackground)
 
     socket.on('message', msg => {
         const currentUser = getCurrentUser(socket.id) // Find the user by their socket id
