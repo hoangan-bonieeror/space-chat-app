@@ -6,6 +6,11 @@ const iconBtn = document.getElementById("icon-btn")
 const notificationSoundElement = document.getElementById('notification-sound')
 const leaveLink = document.getElementById('leave-link')
 const listImgBackgroundOption = document.querySelectorAll('img.background-option')
+const bellNotification = document.querySelector('.muted')
+
+
+let notifyMode = window.localStorage.getItem('mode') == 'true';
+
 
 // Handle responsive height for mobile ui
 window.addEventListener('resize', () => {
@@ -25,6 +30,28 @@ listImgBackgroundOption.forEach(img => {
         changeBackground(img.src)
     })
 })
+
+if(bellNotification) {
+    bellNotification.addEventListener('mouseover', _ => {
+        notifyMode
+        ? bellNotification.children[0].classList.add('fa-bell-slash')
+        : bellNotification.children[0].classList.remove('fa-bell-slash')
+    })
+    
+    bellNotification.addEventListener('mouseout', _ => {
+        notifyMode
+        ? bellNotification.children[0].classList.remove('fa-bell-slash')
+        : bellNotification.children[0].classList.add('fa-bell-slash')
+    })
+    
+    bellNotification.addEventListener('click' , _ => {
+        notifyMode
+        ? bellNotification.children[0].classList.add('fa-bell-slash')
+        : bellNotification.children[0].classList.remove('fa-bell-slash')
+        changeNotifyMode();
+        notifyMode = !notifyMode
+    })
+}
 
 let { username, room } = Qs.parse(location.search, {
     ignoreQueryPrefix: true
@@ -50,15 +77,15 @@ window.onload = e => {
     ? `url(${window.localStorage.getItem('url_background')})`
     : `url(${listImgBackgroundOption[0].src})`
 
+    !notifyMode && bellNotification.children[0].classList.add('fa-bell-slash')
 
     const socket = io();
-
     // Join chat room
     socket.emit('joinRoom', { username, room })
 
     socket.on('message', message => {
         console.log(message)
-        outputMessage(message)
+        outputMessage(message, notifyMode)
 
         chatMessage.scrollTop = chatMessage.scrollHeight
     })
@@ -163,6 +190,11 @@ window.onload = e => {
     }
 }
 
+function changeNotifyMode() {
+    console.log(notifyMode)
+    window.localStorage.setItem('mode', !(notifyMode))
+}
+
 function changeBackground(url) {
     if(window.localStorage.getItem('url_background') !== url) {
         window.localStorage.setItem('url_background', url) 
@@ -172,7 +204,7 @@ function changeBackground(url) {
     }
 }
 
-function outputMessage(obj) {
+function outputMessage(obj, mode) {
     const div = document.createElement('div')
     div.classList.add('line-message')
     div.innerHTML = `
@@ -184,8 +216,12 @@ function outputMessage(obj) {
 
     if (obj.username === 'You' || obj.username === 'ChatBot') {
         div.classList.add('right')
-    } else {
-        notificationSoundElement.play()
+    }
+
+    if(obj.username !== 'You') {
+        if(mode) {
+            notificationSoundElement.play()
+        }
     }
 
     document.querySelector('.chat-messages').appendChild(div)

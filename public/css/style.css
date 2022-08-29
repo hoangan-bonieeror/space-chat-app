@@ -62,7 +62,7 @@ body {
 }
 
 canvas {
-	/* background: url('../assets/d1aehdnbq0h21.jpg'); */
+	background: url('../assets/d1aehdnbq0h21.jpg');
     background-size: cover !important;
 	background-position: center !important;
 	background-repeat: no-repeat !important;
@@ -144,7 +144,7 @@ a {
 }
 
 
-#background-url {
+#background-url, .muted {
 	cursor: pointer;
 	position: absolute;
 	top: 20px;
@@ -155,12 +155,18 @@ a {
 	border-radius: .5rem;
 	transition-duration: .5s;
 	color: white;
+	width: 60px;
+	text-align: center;
 }
 
-#background-url > i {
+#background-url > i, .muted > i {
 	font-weight: 600;
 	font-size: 30px;
 	transition-duration: .5s;
+}
+
+.muted {
+	top: 90px;
 }
 
 .btn {
