@@ -5,8 +5,7 @@ const roomeName = document.getElementById('room-name')
 const iconBtn = document.getElementById("icon-btn")
 const notificationSoundElement = document.getElementById('notification-sound')
 const leaveLink = document.getElementById('leave-link')
-
-let listBackground = []
+const listImgBackgroundOption = document.querySelectorAll('img.background-option')
 
 // Handle responsive height for mobile ui
 window.addEventListener('resize', () => {
@@ -19,6 +18,12 @@ leaveLink.addEventListener('click', e => {
     e.preventDefault()
     document.cookie = [...document.cookie.split(';').filter(cookie => !cookie.includes('room_id'))].join(';')
     window.location = leaveLink.href
+})
+
+listImgBackgroundOption.forEach(img => {
+    img.addEventListener('click', e => {
+        changeBackground(img.src)
+    })
 })
 
 let { username, room } = Qs.parse(location.search, {
@@ -40,10 +45,10 @@ window.onload = e => {
         room = value
     }
 
-
-    if(window.localStorage.getItem('url_background')) {
-        document.querySelector('canvas').style.background = `url(${window.localStorage.getItem('url_background')})`
-    }
+    // Set Default background
+    document.querySelector('canvas').style.background = window.localStorage.getItem('url_background') 
+    ? `url(${window.localStorage.getItem('url_background')})`
+    : `url(${listImgBackgroundOption[0].src})`
 
 
     const socket = io();
@@ -119,36 +124,6 @@ window.onload = e => {
             document.getElementById('emoji-content').appendChild(spanElement)
         })
     })
-    socket.on('loadBackground', listBackground => {
-        listBackground.forEach(url => {
-            let optionBack = document.createElement('div')
-            optionBack.classList.add('background-item');
-
-            let imgPresent = document.createElement('img')
-            imgPresent.src = url
-            
-             
-            if(imgPresent.width == imgPresent.height) {
-                imgPresent.width = imgPresent.height = 170
-            } else {
-                imgPresent.width = 200
-                imgPresent.height = 120
-            }
-
-            imgPresent.classList.add('background-option')
-
-            let hintDiv = document.createElement('div')
-            hintDiv.textContent = "Set Background"
-
-            optionBack.append(imgPresent, hintDiv)
-
-            optionBack.addEventListener('click', e => {
-                changeBackground(url);
-            })
-            document.getElementById('list-background-url').appendChild(optionBack)
-        })
-        
-    }) 
 
     forceRedirectToHttps()
 
